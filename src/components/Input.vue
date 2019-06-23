@@ -27,6 +27,16 @@
         :class="$style['field__icon']"
         :glyph="icon" />
     </div>
+
+    <div
+      v-if="message"
+      :class="{
+        [$style['message']]: true,
+        [$style['message--error']]: hasError,
+        [$style['message--success']]: hasSuccess
+      }">
+      {{ message }}
+    </div>
   </label>
 </template>
 
@@ -55,6 +65,12 @@ export default {
     },
 
     label: {
+      type: [String, Number],
+      required: false,
+      default: ''
+    },
+
+    message: {
       type: [String, Number],
       required: false,
       default: ''
@@ -113,16 +129,22 @@ export default {
   display: block
 
 .label
+.message
   margin-bottom: 5px
   font-size: 14px
   color: $color-secondary
   fill: $color-secondary
   text-align: left
 
+.message
+  margin-top: 5px
+
 .label--error
+.message--error
   color: $color-error
 
 .label--success
+.message--success
   color: $color-success
 
 .field

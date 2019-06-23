@@ -13,7 +13,8 @@
         label="Имя"
         placeholder="Иван"
         :has-error="$v.firstName.$error"
-        :has-success="$v.firstName.$dirty && !$v.firstName.$error" />
+        :has-success="$v.firstName.$dirty && !$v.firstName.$error"
+        :message="firstNameError" />
 
       <UiInput
         v-model.trim="$v.lastName.$model"
@@ -21,7 +22,8 @@
         label="Фамилия"
         placeholder="Иванов"
         :has-error="$v.lastName.$error"
-        :has-success="$v.lastName.$dirty && !$v.lastName.$error" />
+        :has-success="$v.lastName.$dirty && !$v.lastName.$error"
+        :message="lastNameError" />
     </div>
   </div>
 </template>
@@ -76,6 +78,22 @@ export default {
       }
     },
 
+    firstNameError () {
+      if (!this.$v.firstName.$error) {
+        return ''
+      }
+
+      if (!this.$v.firstName.required) {
+        return 'Имя обязательно для заполнения'
+      }
+
+      if (!this.$v.firstName.maxLength) {
+        return 'Имя должно быть не больше 255 символов'
+      }
+
+      return ''
+    },
+
     lastName: {
       get () {
         return this.$store.state.lastName
@@ -84,6 +102,22 @@ export default {
       set (value) {
         this.$store.dispatch('setLastName', value)
       }
+    },
+
+    lastNameError () {
+      if (!this.$v.lastName.$error) {
+        return ''
+      }
+
+      if (!this.$v.lastName.required) {
+        return 'Фамилия обязательна для заполнения'
+      }
+
+      if (!this.$v.lastName.maxLength) {
+        return 'Фамилия должна быть не больше 255 символов'
+      }
+
+      return ''
     }
   },
 
