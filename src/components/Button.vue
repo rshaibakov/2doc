@@ -3,20 +3,27 @@
     v-bind="$attrs"
     :class="{
       [$style['container']]: true,
-      [$style['--disabled']]: disabled
+      [$style['--disabled']]: disabled,
+      [$style['--loading']]: loading
     }"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     v-on="$listeners">
     <div
       v-if="icon"
       :class="$style['icon-place']">
       <UiIcon
         :class="$style['icon']"
-        :glyph="icon" />
+        :glyph="localIcon" />
     </div>
 
     <div :class="$style['content']">
-      <slot />
+      <template v-if="loading">
+        Загрузка...
+      </template>
+
+      <template v-else>
+        <slot />
+      </template>
     </div>
   </button>
 </template>
@@ -42,6 +49,18 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+
+  computed: {
+    localIcon () {
+      return this.loading ? 'update' : this.icon
     }
   }
 }
@@ -77,6 +96,16 @@ export default {
   &:hover
   &:active
     background: $color-primary
+    transform: none
+
+.--loading
+  background: $color-info-light
+  color: $color-primary
+  cursor: default
+
+  &:hover
+  &:active
+    background: $color-info-light
     transform: none
 
 .icon-place

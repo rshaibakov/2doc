@@ -60,7 +60,7 @@
         <div class="--span--24">
           <UiButton
             icon="arrow-right"
-            @click="placeOrder()">
+            @click="nextForm()">
             Продолжить
           </UiButton>
         </div>
@@ -81,6 +81,7 @@
         class="--layout--row" >
         <div class="--span--24">
           <UiButton
+            :loading="hasLoading"
             icon="check"
             @click="placeOrder()">
             Оформить заказ
@@ -88,6 +89,31 @@
         </div>
       </footer>
     </template>
+
+    <UiModal
+      v-if="hasResult"
+      @close="closeMessage()">
+
+      <template v-if="hasSuccess">
+        <h3>
+          Заказ успешно отправлен
+        </h3>
+
+        <UiButton @click="closeMessage()">
+          Ок
+        </UiButton>
+      </template>
+
+      <template v-else-if="hasError">
+        <h3>
+          Произошла ошибка. Попробуйте повторить заказ
+        </h3>
+
+        <UiButton @click="placeOrder()">
+          Повторить
+        </UiButton>
+      </template>
+    </UiModal>
   </div>
 </template>
 
@@ -97,6 +123,7 @@ import UiSteps from '@/components/Steps.vue'
 import UiInput from '@/components/Input.vue'
 import UiButton from '@/components/Button.vue'
 import UiTextArea from '@/components/TextArea.vue'
+import UiModal from '@/components/Modal.vue'
 
 export default {
   name: 'v-home',
@@ -105,14 +132,18 @@ export default {
     UiSteps,
     UiInput,
     UiButton,
-    UiTextArea
+    UiTextArea,
+    UiModal
   },
 
   data () {
     return {
       steps: ['Основные данные', 'Адрес доставки'],
       STEP_COMMON: 0,
-      STEP_DELIVERY: 1
+      STEP_DELIVERY: 1,
+      hasError: false,
+      hasSuccess: false,
+      hasLoading: false
     }
   },
 
@@ -243,6 +274,10 @@ export default {
       set (value) {
         this.$store.dispatch('setComments', value)
       }
+    },
+
+    hasResult () {
+      return this.hasError || this.hasSuccess
     }
   },
 
@@ -280,10 +315,25 @@ export default {
 
     async placeOrder () {
       try {
+        this.hasLoading = true
+        this.closeMessage()
+
         await this.$store.dispatch('placeOrder')
+        this.$store.dispatch('resetForm')
+        this.$v.$reset()
+
+        this.hasSuccess = true
       } catch (err) {
-        console.log(err)
+        console.error(err)
+        this.hasError = true
       }
+
+      this.hasLoading = false
+    },
+
+    closeMessage () {
+      this.hasSuccess = false
+      this.hasError = false
     }
   }
 }

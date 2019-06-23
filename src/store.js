@@ -65,6 +65,15 @@ export default new Vuex.Store({
       commit('SET_COMMENTS', payload)
     },
 
+    resetForm ({ commit }) {
+      commit('SET_CURRENT_STEP', 0)
+      commit('SET_FIRST_NAME', '')
+      commit('SET_LAST_NAME', '')
+      commit('SET_PHONE', '')
+      commit('SET_EMAIL', '')
+      commit('SET_COMMENTS', '')
+    },
+
     async placeOrder ({ state, commit }) {
       const res = await request.post('/api/', {
         firstName: state.firstName,
@@ -74,7 +83,9 @@ export default new Vuex.Store({
         comments: state.comments
       })
 
-      console.log(res)
+      if (!res || !res.data || !res.data.success) {
+        throw new Error('Error request when place order')
+      }
     }
   }
 })
