@@ -6,7 +6,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentStep: 0,
-    isValidForm: false,
     firstName: '',
     lastName: '',
     phone: '',
@@ -16,10 +15,6 @@ export default new Vuex.Store({
   mutations: {
     SET_CURRENT_STEP (state, payload) {
       state.currentStep = payload
-    },
-
-    SET_VALID_FORM (state, payload) {
-      state.isValidForm = payload
     },
 
     SET_FIRST_NAME (state, payload) {
@@ -42,10 +37,6 @@ export default new Vuex.Store({
   actions: {
     setCurrentStep ({ commit }, payload) {
       commit('SET_CURRENT_STEP', payload)
-    },
-
-    setValidForm ({ commit }, payload) {
-      commit('SET_VALID_FORM', payload)
     },
 
     setFirstName ({ commit }, payload) {
