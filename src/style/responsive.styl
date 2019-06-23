@@ -1,0 +1,57 @@
+respond-at($size)
+  if !($size in $breakpoints)
+    error('Undefined points')
+  $i = 0
+  for $key, $value in $breakpoints
+    if ($size == $key)
+      if $i is 0
+        +respond-to($key)
+          {block}
+      else if $i is length($breakpoints) - 1
+        +respond-from($key)
+          {block}
+      else
+        +respond-between($prev-size, $key)
+          {block}
+    $prev-size = $key
+    $i += 1
+
+respond-between($from, $to)
+  if !($from in $breakpoints) and !($to in $breakpoints)
+    error('Invalid breakpoints')
+  $query = 'only screen and (min-width: ' + ($breakpoints[$from] + 1px) + ') and (max-width: ' + unit($breakpoints[$to], 'px') + ')'
+  @media $query {
+    {block}
+  }
+
+respond-from($from)
+  if !($from in $breakpoints)
+    error('Invalid breakpoint ' + $from)
+  $query = 'only screen and (min-width: ' + unit($breakpoints[$from], 'px') + ')'
+  @media $query {
+    {block}
+  }
+
+respond-to($to)
+  if !($to in $breakpoints)
+    error('Invalid breakpoint ' + $to)
+  $query = 'only screen and (max-width: ' + unit($breakpoints[$to], 'px') + ')'
+  @media $query {
+    {block}
+  }
+
+mobile()
+  +respond-to(xs)
+    {block}
+
+tablet()
+  +respond-between(xs, md)
+    {block}
+
+notebook()
+  +respond-between(md, xl)
+    {block}
+
+desktop()
+  +respond-from(xl)
+    {block}

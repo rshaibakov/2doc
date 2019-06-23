@@ -1,0 +1,31 @@
+@import './responsive.styl'
+@import './grid.styl'
+
+:global
+  .--layout--row
+    container: row
+
+  .--layout--col
+    container: column
+
+  for $i in 0..$base-count-columns
+    .--span--{$i}
+      span: $i, null, 1, 1, true
+
+    .--span--offset-{$i}
+      offset: $i
+    
+    .--span--grow-{$i}
+      flex-grow: $i
+    
+    .--span--shrink-{$i}
+      flex-shrink: $i
+
+  for $i in 0..$base-count-columns
+    for $key, $value in $breakpoints
+      +respond-at($key)
+        .--span--{$key}-{$i}
+          span: $i, null, 1, 1, true
+
+  .--span--fixed
+    flex: 0 0 auto !important

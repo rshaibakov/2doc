@@ -1,0 +1,34 @@
+container($direction = row, $main-axis = null, $cross-axis = null, $wrap = wrap)
+  margin-left: -10px
+  margin-right: -10px
+  display: flex
+  flex-direction: $direction
+  flex-wrap: $wrap
+
+  if $direction is row
+    justify-content: $main-axis
+    align-items: $cross-axis
+  else
+    justify-content: $cross-axis
+    align-items: $main-axis
+
+span-calc-width($n)
+  (1 / 24 * $n * 100) * 1%
+
+span($size, $offset = null, $grow = 1, $shrink = 1, $important = false)
+  padding-left: 10px
+  padding-right: 10px
+  flex-grow: $grow
+  flex-shrink: $shrink
+  offset: $offset
+  if $size > 0 and $size <= $base-count-columns
+    if $important
+      width: span-calc-width($size) - 20 !important
+    else
+      width: span-calc-width($size) - 20
+  else
+    display: none
+
+offset($offset)
+  if $offset isnt null and $offset > 0 and $offset <= $base-count-columns
+    margin-left: span-calc-width($offset)
