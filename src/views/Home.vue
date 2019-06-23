@@ -28,7 +28,7 @@
         :message="lastNameError" />
     </div>
 
-    <div class="--layout--row">
+    <div class="--layout--row --m--b-xl">
       <UiInput
         v-model.trim="$v.phone.$model"
         class="--span--24"
@@ -40,11 +40,23 @@
         :has-success="$v.phone.$dirty && !$v.phone.$error"
         :message="phoneError" />
     </div>
+
+    <div class="--layout--row --m--b-xl">
+      <UiInput
+        v-model.trim="$v.email.$model"
+        class="--span--24"
+        type="email"
+        label="Email"
+        placeholder="example@example.com"
+        :has-error="$v.email.$error"
+        :has-success="$v.email.$dirty && !$v.email.$error"
+        :message="emailError" />
+    </div>
   </div>
 </template>
 
 <script>
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { required, maxLength, email } from 'vuelidate/lib/validators'
 import UiSteps from '@/components/Steps.vue'
 import UiInput from '@/components/Input.vue'
 
@@ -155,6 +167,32 @@ export default {
       }
 
       return ''
+    },
+
+    email: {
+      get () {
+        return this.$store.state.email
+      },
+
+      set (value) {
+        this.$store.dispatch('setEmail', value)
+      }
+    },
+
+    emailError () {
+      if (!this.$v.email.$error) {
+        return ''
+      }
+
+      if (!this.$v.email.required) {
+        return 'Email обязателен для заполнения'
+      }
+
+      if (!this.$v.email.email) {
+        return 'Неверный формат email'
+      }
+
+      return ''
     }
   },
 
@@ -171,6 +209,11 @@ export default {
 
     phone: {
       required
+    },
+
+    email: {
+      required,
+      email
     }
   }
 }

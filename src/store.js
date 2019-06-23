@@ -9,7 +9,8 @@ export default new Vuex.Store({
     isValidForm: false,
     firstName: '',
     lastName: '',
-    phone: ''
+    phone: '',
+    email: ''
   },
 
   mutations: {
@@ -31,6 +32,10 @@ export default new Vuex.Store({
 
     SET_PHONE (state, payload) {
       state.phone = payload
+    },
+
+    SET_EMAIL (state, payload) {
+      state.email = payload
     }
   },
 
@@ -53,6 +58,10 @@ export default new Vuex.Store({
 
     setPhone ({ commit }, payload) {
       commit('SET_PHONE', payload)
+    },
+
+    setEmail ({ commit }, payload) {
+      commit('SET_EMAIL', payload)
     }
   }
 })
