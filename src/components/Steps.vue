@@ -5,8 +5,8 @@
       :key="key"
       :class="{
         [$style['item']]: true,
-        [$style['item--active']]: key === value,
-        [$style['item--allowed']]: key === value + 1 && isValidCurrent
+        [$style['item--active']]: isActive(key),
+        [$style['item--allowed']]: isAllowed(key)
       }"
       role="button"
       @click="select(key)">
@@ -47,6 +47,18 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    }
+  },
+
+  computed: {
+    isActive () {
+      return key => key === this.value
+    },
+
+    isAllowed () {
+      const next = this.value + 1
+      return key => key < this.value ||
+      (key === next && this.isValidCurrent)
     }
   },
 
@@ -124,5 +136,4 @@ export default {
 
 .item--allowed .item__number
   background: $color-accent
-
 </style>
