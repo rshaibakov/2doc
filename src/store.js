@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import request from 'axios'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ export default new Vuex.Store({
     firstName: '',
     lastName: '',
     phone: '',
-    email: ''
+    email: '',
+    comments: ''
   },
 
   mutations: {
@@ -31,6 +33,10 @@ export default new Vuex.Store({
 
     SET_EMAIL (state, payload) {
       state.email = payload
+    },
+
+    SET_COMMENTS (state, payload) {
+      state.comments = payload
     }
   },
 
@@ -53,6 +59,22 @@ export default new Vuex.Store({
 
     setEmail ({ commit }, payload) {
       commit('SET_EMAIL', payload)
+    },
+
+    setComments ({ commit }, payload) {
+      commit('SET_COMMENTS', payload)
+    },
+
+    async placeOrder ({ state, commit }) {
+      const res = await request.post('/api/', {
+        firstName: state.firstName,
+        lastName: state.lastName,
+        phone: state.phone,
+        email: state.email,
+        comments: state.comments
+      })
+
+      console.log(res)
     }
   }
 })

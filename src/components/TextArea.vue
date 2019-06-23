@@ -2,16 +2,7 @@
   <UiField
     v-bind="$attrs"
     :class="$style['field']">
-    <input
-      v-if="!!mask"
-      v-bind="$attrs"
-      v-mask="mask"
-      :class="$style['field__form']"
-      :value="value"
-      v-on="listeners" />
-
-    <input
-      v-else
+    <textarea
       v-bind="$attrs"
       :class="$style['field__form']"
       :value="value"
@@ -23,7 +14,7 @@
 import UiField from '@/components/Field.vue'
 
 export default {
-  name: 'ui-input',
+  name: 'ui-text-area',
 
   components: {
     UiField
@@ -39,12 +30,6 @@ export default {
   props: {
     value: {
       type: [String, Number],
-      required: false,
-      default: ''
-    },
-
-    mask: {
-      type: String,
       required: false,
       default: ''
     }
@@ -68,8 +53,9 @@ export default {
 
 .field__form
   width: calc(100% - 30px)
-  height: 40px
-  padding: 0 15px
+  height: 100%
+  min-height: 150px
+  padding: 15px
   display: inline-block
   background: transparent
   outline: none
