@@ -1,4 +1,4 @@
-# docdoc-test
+# 2doc
 
 ## Project setup
 ```
