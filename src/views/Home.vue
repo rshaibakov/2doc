@@ -6,10 +6,11 @@
       :items="steps"
       :is-valid-current="isValidForm" />
 
-    <div class="--layout--row">
+    <div class="--layout--row --m--b-xl">
       <UiInput
         v-model.trim="$v.firstName.$model"
         class="--span--12 --span--xs-24"
+        type="text"
         label="Имя"
         placeholder="Иван"
         :has-error="$v.firstName.$error"
@@ -19,11 +20,25 @@
       <UiInput
         v-model.trim="$v.lastName.$model"
         class="--span--12 --span--xs-24"
+        type="text"
         label="Фамилия"
         placeholder="Иванов"
         :has-error="$v.lastName.$error"
         :has-success="$v.lastName.$dirty && !$v.lastName.$error"
         :message="lastNameError" />
+    </div>
+
+    <div class="--layout--row">
+      <UiInput
+        v-model.trim="$v.phone.$model"
+        class="--span--24"
+        type="tel"
+        label="Телефон"
+        mask="+7 (###) ####-##-##"
+        placeholder="+7 (999) 999-99-99"
+        :has-error="$v.phone.$error"
+        :has-success="$v.phone.$dirty && !$v.phone.$error"
+        :message="phoneError" />
     </div>
   </div>
 </template>
@@ -118,6 +133,28 @@ export default {
       }
 
       return ''
+    },
+
+    phone: {
+      get () {
+        return this.$store.state.phone
+      },
+
+      set (value) {
+        this.$store.dispatch('setPhone', value)
+      }
+    },
+
+    phoneError () {
+      if (!this.$v.phone.$error) {
+        return ''
+      }
+
+      if (!this.$v.phone.required) {
+        return 'Телефон обязателен для заполнения'
+      }
+
+      return ''
     }
   },
 
@@ -130,6 +167,10 @@ export default {
     lastName: {
       required,
       maxLength: maxLength(255)
+    },
+
+    phone: {
+      required
     }
   }
 }

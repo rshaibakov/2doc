@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+import VueTheMask from 'vue-the-mask'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -8,6 +9,7 @@ import '@/style/helpers.styl'
 
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
+Vue.use(VueTheMask)
 
 new Vue({
   router,

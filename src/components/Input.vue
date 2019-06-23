@@ -18,10 +18,19 @@
       }">
 
       <input
+        v-if="!!mask"
         v-bind="$attrs"
-        :value="value"
+        v-mask="mask"
         :class="$style['field__form']"
-        v-on="listeners">
+        :value="value"
+        v-on="listeners" />
+
+      <input
+        v-else
+        v-bind="$attrs"
+        :class="$style['field__form']"
+        :value="value"
+        v-on="listeners" />
 
       <UiIcon
         :class="$style['field__icon']"
@@ -66,6 +75,12 @@ export default {
 
     label: {
       type: [String, Number],
+      required: false,
+      default: ''
+    },
+
+    mask: {
+      type: String,
       required: false,
       default: ''
     },

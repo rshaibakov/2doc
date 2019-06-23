@@ -8,7 +8,8 @@ export default new Vuex.Store({
     currentStep: 0,
     isValidForm: false,
     firstName: '',
-    lastName: ''
+    lastName: '',
+    phone: ''
   },
 
   mutations: {
@@ -26,6 +27,10 @@ export default new Vuex.Store({
 
     SET_LAST_NAME (state, payload) {
       state.lastName = payload
+    },
+
+    SET_PHONE (state, payload) {
+      state.phone = payload
     }
   },
 
@@ -44,6 +49,10 @@ export default new Vuex.Store({
 
     setLastName ({ commit }, payload) {
       commit('SET_LAST_NAME', payload)
+    },
+
+    setPhone ({ commit }, payload) {
+      commit('SET_PHONE', payload)
     }
   }
 })
