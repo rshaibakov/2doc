@@ -68,7 +68,7 @@
     </template>
 
     <template v-else-if="currentStep === STEP_DELIVERY">
-      <div class="--layout--row --m--b-xl">
+      <div class="--layout--row --m--b-xxl">
         <UiTextArea
           v-model="comments"
           class="--span--24"

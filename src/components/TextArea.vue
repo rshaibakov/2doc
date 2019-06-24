@@ -60,6 +60,7 @@ export default {
   background: transparent
   outline: none
   border: none
+  resize: vertical
 
 .field__form::placeholder
   color: $color-primary-dark
