@@ -90,30 +90,47 @@
       </footer>
     </template>
 
-    <UiModal
-      v-if="hasResult"
-      @close="closeMessage()">
+    <transition name="fade">
+      <UiModal
+        v-if="hasResult"
+        :class="$style['message']"
+        @close="closeMessage()">
 
-      <template v-if="hasSuccess">
-        <h3>
-          Заказ успешно отправлен
-        </h3>
+        <template v-if="hasSuccess">
+          <UiIcon
+            :class="[
+              $style['message__icon'],
+              $style['message__icon--success']
+            ]"
+            glyph="check-circle" />
 
-        <UiButton @click="closeMessage()">
-          Ок
-        </UiButton>
-      </template>
+          <h3 class="--m--b-xxl">
+            Заказ успешно отправлен
+          </h3>
 
-      <template v-else-if="hasError">
-        <h3>
-          Произошла ошибка. Попробуйте повторить заказ
-        </h3>
+          <UiButton @click="closeMessage()">
+            Ок
+          </UiButton>
+        </template>
 
-        <UiButton @click="placeOrder()">
-          Повторить
-        </UiButton>
-      </template>
-    </UiModal>
+        <template v-else-if="hasError">
+          <UiIcon
+            :class="[
+              $style['message__icon'],
+              $style['message__icon--error']
+            ]"
+            glyph="warning" />
+
+          <h3 class="--m--b-xxl">
+            Произошла ошибка. Попробуйте повторить заказ
+          </h3>
+
+          <UiButton @click="placeOrder()">
+            Повторить
+          </UiButton>
+        </template>
+      </UiModal>
+    </transition>
   </div>
 </template>
 
@@ -124,6 +141,7 @@ import UiInput from '@/components/Input.vue'
 import UiButton from '@/components/Button.vue'
 import UiTextArea from '@/components/TextArea.vue'
 import UiModal from '@/components/Modal.vue'
+import UiIcon from '@/components/Icon.vue'
 
 export default {
   name: 'v-home',
@@ -133,7 +151,8 @@ export default {
     UiInput,
     UiButton,
     UiTextArea,
-    UiModal
+    UiModal,
+    UiIcon
   },
 
   data () {
@@ -349,4 +368,14 @@ export default {
 
 .footer
   text-align: left
+
+.message__icon
+  width: 75px
+  height: 75px
+
+.message__icon--success
+  fill: $color-success
+
+.message__icon--error
+  fill: $color-error
 </style>

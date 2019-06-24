@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import 'normalize.css'
 import '@/style/helpers.styl'
+import '@/style/transitions.styl'
 
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
